@@ -1,0 +1,134 @@
+<!-- circles.html -->
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Piano Player</title>
+	<script type="text/javascript" src="js/paper-full.js"></script>
+	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/howler/2.0.5/howler.js"></script>
+
+	<link href="https://fonts.googleapis.com/css?family=Lobster" rel="stylesheet"> 
+	<link rel="stylesheet" type="text/css" href="stylesheets/piano-player.css">
+	<link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+	
+
+
+	<script type="text/paperscript" canvas="myCanvas">
+	
+	var keyData = {
+		// Natural notes...
+		a: {
+			color: "purple",
+			sound: new Howl({
+			src: ['sounds/68437__pinkyfinger__piano-a.wav']
+			})
+		},
+		b: {
+			color: "green",
+			sound: new Howl({
+			src: ['sounds/68438__pinkyfinger__piano-b.wav']
+			})
+		},
+		c: {
+			color: "yellow",
+			sound: new Howl({
+			src: ['sounds/68441__pinkyfinger__piano-c.wav']
+			})
+		},
+		d: {
+			color: "red",
+			sound: new Howl({
+			src: ['sounds/68442__pinkyfinger__piano-d.wav']
+			})
+		},
+		e: {
+			color: "blue",
+			sound: new Howl({
+			src: ['sounds/68443__pinkyfinger__piano-e.wav']
+			})
+		},
+		f: {
+			color: "silver",
+			sound: new Howl({
+			src: ['sounds/68446__pinkyfinger__piano-f.wav']
+			})
+		},
+		g: {
+			color: "gold",
+			sound: new Howl({
+			src: ['sounds/68447__pinkyfinger__piano-g.wav']
+			})
+		},
+		// Sharp notes...
+		A: {
+			color: "pink",
+			sound: new Howl({
+			src: ['sounds/68439__pinkyfinger__piano-bb.wav']
+			})
+		},
+		C: {
+			color: "orange",
+			sound: new Howl({
+			src: ['sounds/68440__pinkyfinger__piano-c.wav']
+			})
+		},
+		D: {
+			color: "purple",
+			sound: new Howl({
+			src: ['sounds/68444__pinkyfinger__piano-eb.wav']
+			})
+		},
+		F: {
+			color: "grey",
+			sound: new Howl({
+			src: ['sounds/68445__pinkyfinger__piano-f.wav']
+			})
+		},
+		G: {
+			color: "yellow",
+			sound: new Howl({
+			src: ['sounds/68448__pinkyfinger__piano-g.wav']
+			})
+		},
+	}
+
+	var circles = [];
+
+	function onKeyDown(event) {
+		if(keyData[event.character]){
+			var maxPoint = new Point(view.size.width, view.size.height);
+			var randomPoint = Point.random();
+			var point = maxPoint * randomPoint;
+			var newCircle = new Path.Circle(point, 300);
+			newCircle.fillColor = keyData[event.character].color;
+			keyData[event.character].sound.play();
+			circles.push(newCircle);
+		}
+	}
+
+	function onFrame(event){
+		for(var i = 0; i < circles.length; i++){
+			circles[i].fillColor.hue += 1;
+			circles[i].scale(0.95);
+		}
+	}
+
+</script>
+</head>
+
+<body>
+	
+<div class="header">
+	<h1 id="title_text">Piano Player</h1>
+	<ul class="instructions">
+		<li>Ensure volume is at a moderate level</li>
+		<li>Press keys A-G to play a tune</li>
+		<li>Add the shift-key to play sharp notes <em>(e.g. shift + A = A sharp)</em></li>
+	</ul>
+	<div></div>
+	<p class="summary">This basic app utilizes paper.js to create the animated canvas, and howler.js to play the piano audio samples.</p>
+	<a id="profile-button" href="https://www.google.com" class="btn">My Profile Page</a>
+</div>
+<canvas id="myCanvas" resize></canvas>
+</body>
+
+</html>
